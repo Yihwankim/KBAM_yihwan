@@ -1,11 +1,6 @@
 # import packages
-import requests
-from bs4 import BeautifulSoup as BS
 import pandas as pd
-import warnings
-# from slacker import Slacker
 import telegram
-import websocket
 from datetime import datetime
 import time
 import sys
@@ -68,7 +63,8 @@ while True:
             ask_y = etf_list['ask1'][i]
             bid_y = etf_list['bid1'][i]
             gap_y = etf_list['gap'][i]
-            spread_y = round(etf_list['spread'][i], 4) * 100
+            spread_y_1 = round(etf_list['spread'][i], 4) * 100
+            spread_y = round(spread_y_1, 2)
             criterion_y = etf_list['criterion'][i] * 100
 
             now_time = "[" + time.strftime('%H:%M:%S') + "]" + "\n"
@@ -82,14 +78,30 @@ while True:
             print("스프레드 위반")
             print(spread_send)
 
-            # notification(warr)
-            # notification(spread_value)
-            # notification(spread_mgt)
-            # notification(spread_now)
             notification(spread_send)
-            # notification("------------------------------------------")
+
+        elif etf_list['ask1'][i] == 0 or etf_list['bid1'][i] == 0:
+            print('매수/ 매도호가 없음')
+
+            code_o = etf_list['code'][i]
+            name_o = etf_list['name'][i]
+            ask_o = etf_list['ask1'][i]
+            bid_o = etf_list['bid1'][i]
+
+            now_time = "[" + time.strftime('%H:%M:%S') + "]" + "\n"
+            message_o = "현재 호가 없음" + "\n"
+            warr = name_o + "(A" + str(code_o) + ")" + "\n"
+            spread_value = "매도: " + str(ask_o) + " " + "매수: " + str(bid_o) + "\n"
+
+            ask_bid = now_time + message_o + warr + spread_value
+            notification(ask_bid)
+
+            print(ask_bid)
+
+
 
     print("------------------------------------------")
 
     time.sleep(180)
-    print(now_time)
+    print(time.strftime('%H:%M:%S'))
+
