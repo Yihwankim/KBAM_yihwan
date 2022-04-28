@@ -57,7 +57,25 @@ while True:
     etf_list = pd.read_excel("ETF_LP_spread.xlsm", header=5)
 
     for i in range(len(etf_list)):
-        if etf_list['check'][i] == "Y":
+        if etf_list['ask1'][i] == 0 or etf_list['bid1'][i] == 0:
+            print('매수/ 매도호가 없음')
+
+            code_o = etf_list['code'][i]
+            name_o = etf_list['name'][i]
+            ask_o = etf_list['ask1'][i]
+            bid_o = etf_list['bid1'][i]
+
+            now_time = "[" + time.strftime('%H:%M:%S') + "]" + "\n"
+            message_o = "현재 호가 없음" + "\n"
+            warr = name_o + "(A" + str(code_o) + ")" + "\n"
+            spread_value = "매도: " + str(ask_o) + " " + "매수: " + str(bid_o) + "\n"
+
+            ask_bid = now_time + message_o + warr + spread_value
+            notification(ask_bid)
+
+            print(ask_bid)
+
+        elif etf_list['check'][i] == "Y":
             code_y = etf_list['code'][i]
             name_y = etf_list['name'][i]
             ask_y = etf_list['ask1'][i]
@@ -79,26 +97,6 @@ while True:
             print(spread_send)
 
             notification(spread_send)
-
-        elif etf_list['ask1'][i] == 0 or etf_list['bid1'][i] == 0:
-            print('매수/ 매도호가 없음')
-
-            code_o = etf_list['code'][i]
-            name_o = etf_list['name'][i]
-            ask_o = etf_list['ask1'][i]
-            bid_o = etf_list['bid1'][i]
-
-            now_time = "[" + time.strftime('%H:%M:%S') + "]" + "\n"
-            message_o = "현재 호가 없음" + "\n"
-            warr = name_o + "(A" + str(code_o) + ")" + "\n"
-            spread_value = "매도: " + str(ask_o) + " " + "매수: " + str(bid_o) + "\n"
-
-            ask_bid = now_time + message_o + warr + spread_value
-            notification(ask_bid)
-
-            print(ask_bid)
-
-
 
     print("------------------------------------------")
 
