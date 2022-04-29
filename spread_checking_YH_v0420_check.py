@@ -100,6 +100,6 @@ while True:
 
     print("------------------------------------------")
 
-    time.sleep(180)
+    time.sleep(295)
     print(time.strftime('%H:%M:%S'))
 
