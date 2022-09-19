@@ -6,6 +6,7 @@ import time
 import sys
 import schedule
 import os
+import pyautogui
 
 ########################################################################################################################
 # 초기 세팅
@@ -24,6 +25,7 @@ os.chdir("C:/Users/check/Desktop/spread/Check_ETF_Spread")
 
 
 ########################################################################################################################
+
 # 함수 선언
 # 텔레그램 메신저로 스프레드 발송
 def notification(text):
@@ -43,11 +45,32 @@ def exit_code():
     sys.exit()  # 프로그램 종료
 
 
-# start <-- 처음 한번만 실행
-start_code()
+# 체크 데이터 업데이트 실행 --> 마우스 좌표설정을 통한 수동 업데이트
+'''
+check expert excel manager: Point(x=1678, y=1057)
+설치(refresh 버튼): Point(x=1367, y=555)
+설치 확인: Point(x=1638, y=785)
+print('current mouse position: ', pyautogui.position())
+'''
+def refresh_check():
+    pyautogui.moveTo(1678, 1057)
+    pyautogui.click()
+    pyautogui.moveTo(1367, 555)
+    pyautogui.click()
+    pyautogui.moveTo(1638, 785)
+    pyautogui.click()
+    time.sleep(20)
+    os.system('start excel.exe ETF_LP_spread.xlsm')
+
 
 ########################################################################################################################
 # Start code
+
+refresh_check()  # 엑셀파일 업데이트 오류시 실행
+
+time.sleep(30)
+
+#start_code()  # 처음한번만 실행
 
 schedule.every().day.at("15:20").do(exit_code)  # 15시 20분에 종료
 
